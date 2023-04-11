@@ -3,9 +3,20 @@ const mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const router = express.Router();
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
 require('dotenv').config();
 
 const User = mongoose.model("Login");
+
+// const transporter = nodemailer.createTransport(sendgridTransport({
+//   auth: {
+//     api_user: ,
+//     api_key
+//   }
+// }));
+
 
 router.get('/', (req, res) => {
     res.json({

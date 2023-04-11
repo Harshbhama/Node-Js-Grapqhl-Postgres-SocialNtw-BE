@@ -10,3 +10,4 @@ mongoose.connect("mongodb://localhost:27017/Project", { useNewUrlParser: true}, 
 const course = require("./courses.model")
 const login = require("./login.model")
 const products = require("./products.model")
+const user = require("./user.model")

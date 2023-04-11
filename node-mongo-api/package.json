@@ -21,6 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.3",
     "next-with-less": "^2.0.5",
+    "nodemailer": "^6.9.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.20",
     "react-redux": "^8.0.4"
   }
