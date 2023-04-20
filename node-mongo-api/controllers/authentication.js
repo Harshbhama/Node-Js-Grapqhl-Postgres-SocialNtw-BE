@@ -10,14 +10,6 @@ require('dotenv').config();
 
 const User = mongoose.model("Login");
 
-// const transporter = nodemailer.createTransport(sendgridTransport({
-//   auth: {
-//     api_user: ,
-//     api_key
-//   }
-// }));
-
-
 router.get('/', (req, res) => {
     res.json({
         error: false,

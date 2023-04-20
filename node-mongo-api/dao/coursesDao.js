@@ -40,9 +40,16 @@ function deleteOneManyDao(model, body){
   })
 }
 
+function findOne(model, name){
+  return new Promise((resolve, reject) => {
+    model.findOne({videoName: name}).then(res => resolve({error: false, data: res})).catch(err => reject({error: true, data: err}))
+  })
+}
+
 module.exports = {
   findDao: findDao,
   addDao: addDao,
   findByIdDao: findByIdDao,
-  deleteOneManyDao: deleteOneManyDao
+  deleteOneManyDao: deleteOneManyDao,
+  findOne:findOne
 }
