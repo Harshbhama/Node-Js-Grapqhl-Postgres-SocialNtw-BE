@@ -46,10 +46,18 @@ function findOne(model, name){
   })
 }
 
+function listAllData(model, obj){
+
+  return new Promise((resolve, reject) => {
+    model.find(obj).then(res => resolve({error: false, data: res})).catch(err => reject({error: true, data: err}))
+  })
+}
+
 module.exports = {
   findDao: findDao,
   addDao: addDao,
   findByIdDao: findByIdDao,
   deleteOneManyDao: deleteOneManyDao,
-  findOne:findOne
+  findOne:findOne,
+  listAllData: listAllData
 }

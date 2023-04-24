@@ -12,7 +12,7 @@ client.on('connect', function() {
     console.log('Connected to redis server');
 }).on('error', function (error) {
     console.log(error);
-});
+})
 
 const CourseController = require('./controllers/courses');
 const LoginController = require('./controllers/authentication');
