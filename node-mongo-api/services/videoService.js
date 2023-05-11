@@ -23,7 +23,6 @@ const addVideoService = async (req, res) => {
 }
 
 const listVideoService = async (req, res) => {
-  console.log(req.session.userData)
   let obj = {videoID: req.session.userData.user_id}
   return new Promise((resolve, reject) => {
     listAllData(VideoModel, obj).then(res => resolve(res)).catch(err => reject(err))
