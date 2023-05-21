@@ -53,11 +53,85 @@ function listAllData(model, obj){
   })
 }
 
+function addTourDao(model, obj){
+  return new Promise((resolve, reject) => {
+    model.create(obj).then(res => resolve(res)).catch(err => reject(err))
+  })
+}
+function getTourDao(model){
+  return new Promise(async (resolve, reject) => {
+    
+    const query = model.find({})
+    //query.then(res => resolve(res)).catch(err => reject(err))
+    //Filtering
+    
+    // model.find()
+    // .where('duration')
+    // .equals(5)
+    // .where('difficulty')
+    // .equals('easy').then(res => resolve(res)).catch(err => reject(err))
+
+    // model.find({
+    //   duration: 5,
+    //   difficulty: 'easy'
+    // }).then(res => resolve(res)).catch(err => reject(err))
+
+    //sorting
+
+    //query.sort("-price duration").then(res => resolve(res)).catch(err => reject) ---- -ve sign is for changing the order
+    
+    // Field limiting
+
+    // query.select('name duration difficulty price').then(res => resolve(res)).catch(err => reject)
+    // query.select('-name -duration').then(res => resolve(res)).catch(err => reject)  --- -ve sign is to exclude from select
+
+
+    // Pagination
+
+    // const page = 2, limit = 3;
+    // const skip = (page-1)*limit;
+
+    // const numTours = await model.countDocuments(); //To find number
+    // console.log(numTours);
+
+    //page=2&limit=3
+
+    // query.skip(skip).limit(limit).then(res => resolve(res)).catch(err => reject)
+    
+  })
+}
+  function getTourStatsDao(model){
+    return new Promise((resolve, reject) => {
+      const stats = model.aggregate([
+        {
+          $match: { ratingsAverage : {$gte: 4.5} }
+        },
+       { 
+        $group: {
+          _id: '$difficulty', 
+          numTours: {$sum: 1}, // Each document going through the pipeline, num will be added --- just like k = k+ 1
+          numRatings: { $sum: '$ratingsQuantity'},
+          avgRating: { $avg: '$ratingsAverage'},
+          avgPrice: { $avg: '$price'},
+          minPrice: { $min: '$price'},
+          maxPrice: { $max: '$price'}
+        }
+      },
+      {
+        $sort: { avgPrice: 1} // For ascending sort as 1, for descending sort as -1
+      }
+      ]).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+
 module.exports = {
   findDao: findDao,
   addDao: addDao,
   findByIdDao: findByIdDao,
   deleteOneManyDao: deleteOneManyDao,
   findOne:findOne,
-  listAllData: listAllData
+  listAllData: listAllData,
+  addTourDao: addTourDao,
+  getTourDao: getTourDao,
+  getTourStatsDao: getTourStatsDao
 }

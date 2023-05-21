@@ -19,6 +19,7 @@ const LoginController = require('./controllers/authentication');
 const ProductController = require('./controllers/products');
 const UserController = require('./controllers/user');
 const VideoController = require('./controllers/videoController')
+const TourController = require('./controllers/tours');
 // const LearnJavascrpt = require('./controllers/learnJavascript');
 application.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 application.use(bodyparser.urlencoded({
@@ -43,6 +44,7 @@ application.use("/course", CourseController);
 application.use("/products",ProductController);
 application.use("/user", UserController);
 application.use("/video", VideoController);
+application.use("/tour", TourController)
 application.listen("4000", () => {
     console.log("server started");
 
