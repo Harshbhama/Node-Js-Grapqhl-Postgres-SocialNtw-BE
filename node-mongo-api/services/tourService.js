@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const TourModel = mongoose.model("Tour");
 
-var { addTourDao, getTourDao, getTourStatsDao } = require("../dao/coursesDao");
+var { addTourDao, getTourDao, getTourStatsDao, getMonthlyPlanDao } = require("../dao/coursesDao");
 
 const addTourService = async (obj) => {
   try {
@@ -25,8 +25,16 @@ const getTourStats = async () => {
     return (err)
   }
 }
+const getTourMonthlyStats = async () => {
+  try{
+    return (await getMonthlyPlanDao(TourModel))
+  }catch(err){
+    return(err)
+  }
+}
   module.exports = {
     addTourService: addTourService,
     getTourService: getTourService,
-    getTourStats: getTourStats
+    getTourStats: getTourStats,
+    getTourMonthlyStats: getTourMonthlyStats
   }

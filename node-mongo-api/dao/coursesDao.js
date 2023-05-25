@@ -123,6 +123,42 @@ function getTourDao(model){
       ]).then(res => resolve(res)).catch(err => reject(err))
     })
   }
+  function getMonthlyPlanDao(model) {
+    return new Promise((resolve, reject) => {
+      let year = 2021;
+      const plan = model.aggregate([
+        {
+          $unwind: '$startDates' //splits array and converts it into documents
+        },
+        {
+          $match: {
+            startDates: { $gte: new Date(`${year}-01-01`), $lte: new Date(`${year}-12-31`)}
+          }
+        },
+        {
+          $group: {
+            _id: { $month : '$startDates'}, // month is the aggregate operator -- To get month from date
+            numTours: {$sum: 1},
+            tours: { $push: '$name'} // push is used to add into array
+          }
+        },
+        {
+          $addFields: { month: '$_id'} // To add field
+        },
+        {
+          $project: {
+            _id: 0 // id no longer shows up.
+          }
+        },
+        {
+          $sort: { numTours: -1}
+        },
+        {
+          $limit: 12 // To have only 12 outputs
+        }
+      ]).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
 
 module.exports = {
   findDao: findDao,
@@ -133,5 +169,6 @@ module.exports = {
   listAllData: listAllData,
   addTourDao: addTourDao,
   getTourDao: getTourDao,
-  getTourStatsDao: getTourStatsDao
+  getTourStatsDao: getTourStatsDao,
+  getMonthlyPlanDao: getMonthlyPlanDao
 }
