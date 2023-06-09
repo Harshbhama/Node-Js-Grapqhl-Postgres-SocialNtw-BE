@@ -62,7 +62,7 @@ function getTourDao(model){
   return new Promise(async (resolve, reject) => {
     
     const query = model.find({})
-    //query.then(res => resolve(res)).catch(err => reject(err))
+    query.then(res => resolve(res)).catch(err => reject(err))
     //Filtering
     
     // model.find()
@@ -97,9 +97,14 @@ function getTourDao(model){
     //page=2&limit=3
 
     // query.skip(skip).limit(limit).then(res => resolve(res)).catch(err => reject)
-    
+
   })
 }
+  function getTourById(id, model){
+    return new Promise(async (resolve, reject) => {
+      const tour = model.findById(id).populate('guides').then(res => resolve(res)).catch(err => reject(err));
+    })
+  }
   function getTourStatsDao(model){
     return new Promise((resolve, reject) => {
       const stats = model.aggregate([
@@ -170,5 +175,6 @@ module.exports = {
   addTourDao: addTourDao,
   getTourDao: getTourDao,
   getTourStatsDao: getTourStatsDao,
-  getMonthlyPlanDao: getMonthlyPlanDao
+  getMonthlyPlanDao: getMonthlyPlanDao,
+  getTourById: getTourById
 }

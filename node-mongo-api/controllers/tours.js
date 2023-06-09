@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 var jwt = require("jsonwebtoken");
 
-const { addTourService, getTourService, getTourStats, getTourMonthlyStats } = require("../services/tourService");
+const { addTourService, getTourService, getTourStats, getTourMonthlyStats, getTourIdService } = require("../services/tourService");
 
 
 router.post('/addTour', async (req, res) => {
@@ -23,6 +23,16 @@ router.post('/getTours', async (req, res) => {
         res.json(err);
     }
 })
+
+router.post('/getToursId', async (req, res) => {
+    try{
+        let service = await getTourIdService(req.body.id);
+        res.json(service)
+    }catch(err){
+        res.json(err)
+    }
+})
+
 router.post('/getTourStats', async (req, res) => {
     try{
         let service = await getTourStats();

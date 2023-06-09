@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const TourModel = mongoose.model("Tour");
 
-var { addTourDao, getTourDao, getTourStatsDao, getMonthlyPlanDao } = require("../dao/coursesDao");
+var { addTourDao, getTourDao, getTourStatsDao, getMonthlyPlanDao, getTourById } = require("../dao/coursesDao");
 
 const addTourService = async (obj) => {
   try {
@@ -15,6 +15,14 @@ const getTourService = async () => {
     return (await getTourDao(TourModel));
   } catch (err) {
     return (err)
+  }
+}
+
+const getTourIdService = async (id) => {
+  try{
+    return (await getTourById(id, TourModel))
+  }catch(err){
+    return(err)
   }
 }
 
@@ -36,5 +44,7 @@ const getTourMonthlyStats = async () => {
     addTourService: addTourService,
     getTourService: getTourService,
     getTourStats: getTourStats,
-    getTourMonthlyStats: getTourMonthlyStats
+    getTourMonthlyStats: getTourMonthlyStats,
+    getTourIdService: getTourIdService
+    
   }

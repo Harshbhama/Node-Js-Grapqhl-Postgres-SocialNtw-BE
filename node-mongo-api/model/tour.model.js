@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-
+// const User = require("./user.model");
+const Login = mongoose.model("Login");
 var tourSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -52,6 +53,59 @@ var tourSchema = new mongoose.Schema({
     default: Date.now(),
     select: false //To hide from get output
   },
-  startDates: [Date]
+  startDates: [Date],
+  startLocation: {
+    //GeoJson
+    type: {
+      type: String,
+      default:'Point',
+      enum: ['Point']
+    },
+    coordinates: [Number],
+    address: String,
+    description: String,
+  },
+  locations: [
+    {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point']
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+      day: Number,
+      
+    }
+  ],
+  // guides: Array
+  guides: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Login"
+    }
+
+  ]
+},
+{
+  toJSON: { virtuals: true} ,
+  toObject: {virtuals: true}
+}
+);
+
+// virtual property is created every time values is get from database.
+//  This is not persistant in the DB, it is called everytime we get data.
+tourSchema.virtual('durationWeeks').get(function (){
+  return this.duration / 7;
 });
+
+//Document Middleware: runs before .save() and .create()
+
+// tourSchema.pre('save', async function(next){
+//   const guidesPromises = this.guides.map(async id => await Login.findById(id))
+//   this.guides = await Promise.all(guidesPromises);
+// })
+
+ 
 mongoose.model("Tour", tourSchema);
