@@ -102,7 +102,10 @@ function getTourDao(model){
 }
   function getTourById(id, model){
     return new Promise(async (resolve, reject) => {
-      const tour = model.findById(id).populate('guides').then(res => resolve(res)).catch(err => reject(err));
+      const tour = model.findById(id).populate({
+        path: 'guides',
+        select: '-password -__v'
+      }).then(res => resolve(res)).catch(err => reject(err));
     })
   }
   function getTourStatsDao(model){
@@ -165,6 +168,12 @@ function getTourDao(model){
     })
   }
 
+  function listAllReviewsDao(model){
+    return new Promise((resolve, reject) => {
+      model.find({}).populate('guides tours').then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+
 module.exports = {
   findDao: findDao,
   addDao: addDao,
@@ -176,5 +185,6 @@ module.exports = {
   getTourDao: getTourDao,
   getTourStatsDao: getTourStatsDao,
   getMonthlyPlanDao: getMonthlyPlanDao,
-  getTourById: getTourById
+  getTourById: getTourById,
+  listAllReviewsDao: listAllReviewsDao
 }
