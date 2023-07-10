@@ -3,14 +3,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import { loginThunk } from '../store/thunks/thunks';
 import React, { useEffect } from 'react';
 import loginCheck from '../utilities/loginCheck';
+import Link from 'next/link';
+import { useRouter } from 'next/router'
 const FormContainer = () => {
   const dispatch = useDispatch();
   const loginDetails = useSelector(state=> state.login.loginDetails);
+  const router = useRouter()
   const onFinish = (values) => {
     console.log('Success:', values);
     dispatch(loginThunk(values)).then((res) => {
-      console.log("loginDetails",loginDetails)
-      // loginCheck(loginDetails?.loginDetails)
+      console.log("loginDetails",loginDetails?.data?.error)
+      if(!loginDetails?.data?.error){
+        router.push('/landing-page')
+      }
+   
     });
   };
   const onFinishFailed = (errorInfo) => {

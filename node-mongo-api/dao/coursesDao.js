@@ -1,3 +1,4 @@
+var { convertToFirstUpper } =  require("../utilities/commonUtilities")
 function findDao(model, fromCourse) {
   return new Promise((resolve, reject) => {
     if(fromCourse){
@@ -103,7 +104,7 @@ function getTourDao(model){
   function getTourById(id, model){
     return new Promise(async (resolve, reject) => {
       const tour = model.findById(id).populate({
-        path: 'guides',
+        path: 'guides reviews',
         select: '-password -__v'
       }).then(res => resolve(res)).catch(err => reject(err));
     })
@@ -147,7 +148,18 @@ function getTourDao(model){
           $group: {
             _id: { $month : '$startDates'}, // month is the aggregate operator -- To get month from date
             numTours: {$sum: 1},
-            tours: { $push: '$name'} // push is used to add into array
+            tours: { $push: '$name'}, // push is used to add into array
+            ratingsAverage: {$avg: "$ratingsAverage"}
+          }
+        },
+        {
+          $match: {
+            ratingsAverage: {$gte: 4.6}
+          }
+        },
+        {
+          $sort: {
+            ratingsAverage: 1
           }
         },
         {
@@ -170,9 +182,51 @@ function getTourDao(model){
 
   function listAllReviewsDao(model){
     return new Promise((resolve, reject) => {
-      model.find({}).populate('guides tours').then(res => resolve(res)).catch(err => reject(err))
+      model.find({}).then(res => resolve(res)).catch(err => reject(err))
+      // model.find({}).populate('user tours').then(res => resolve(res)).catch(err => reject(err))
     })
   }
+
+  function insertCountriesDb(model, cities){
+    return new Promise((resolve, reject) => {
+      model.insertMany(cities).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+
+  function getAllCitiesDb(model, delete_condition){
+    if(delete_condition){
+      return new Promise((resolve, reject) => {
+        model.deleteMany({}).then(res => resolve(res)).catch(err => reject(err))
+      })
+    }else{
+      return new Promise((resolve, reject) => {
+        model.find({}).then(res => resolve(res)).catch(err => reject(err))
+      })
+    }
+  }
+
+  function fetchSearchDb(model, str){
+    var regex = new RegExp("^" + convertToFirstUpper(str), "g");
+    return new Promise((resolve, reject) => {
+      model.aggregate([
+        {
+          $match: { city : regex}
+        },
+        {
+          $addFields: { value: '$city'} // To add field
+        },
+        {
+          $project: {
+            city: 0
+          }
+        },
+        {
+          $sort: {value: 1}
+        }
+      ]).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+  
 
 module.exports = {
   findDao: findDao,
@@ -186,5 +240,8 @@ module.exports = {
   getTourStatsDao: getTourStatsDao,
   getMonthlyPlanDao: getMonthlyPlanDao,
   getTourById: getTourById,
-  listAllReviewsDao: listAllReviewsDao
+  listAllReviewsDao: listAllReviewsDao,
+  insertCountriesDb: insertCountriesDb,
+  getAllCitiesDb: getAllCitiesDb,
+  fetchSearchDb: fetchSearchDb
 }

@@ -79,7 +79,7 @@ var tourSchema = new mongoose.Schema({
       
     }
   ],
-  // guides: Array
+  // guides: Array -- This is child referencing
   guides: [
     {
       type: mongoose.Schema.ObjectId,
@@ -99,6 +99,14 @@ var tourSchema = new mongoose.Schema({
 tourSchema.virtual('durationWeeks').get(function (){
   return this.duration / 7;
 });
+
+// Parent referencing was done in review Model, and here we are linking that parent refering via virtuals
+// We prevented childrefering for reviews in tours model, by virtuals
+tourSchema.virtual('reviews', {
+  ref: 'Review', // Name of the model
+  foreignField: 'tours', // The field which is want to connect from reviewModal
+  localField: '_id' // The field which we want to connect from tourModal
+})
 
 //Document Middleware: runs before .save() and .create()
 

@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
+    "antd": "^5.6.4",
+    "axios": "^1.4.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
@@ -20,12 +22,15 @@
     "express-session": "^1.17.3",
     "gray-matter": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.3.3",
+    "next-redux-wrapper": "^8.1.0",
     "next-with-less": "^2.0.5",
     "nodemailer": "^6.9.1",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.20",
     "react-redux": "^8.0.4",
-    "redis": "^4.6.5"
+    "redis": "^4.6.5",
+    "redux-devtools-extension": "^2.13.9"
   }
 }

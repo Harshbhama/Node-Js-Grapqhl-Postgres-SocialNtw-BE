@@ -14,3 +14,4 @@ const user = require("./user.model")
 const video = require("./video.model")
 const tour = require("./tour.model")
 const review = require("./reviewModel");
+const country = require("./countries.model");

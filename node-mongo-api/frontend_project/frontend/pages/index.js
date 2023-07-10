@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import styles from '../styles/Home.module.css'
 import FormContainer from '../helpers/form'
-
+import LandingPage from './landing-page';
 import { fetchposts } from '../store/actions/postAction';
 
 export default function Home() {

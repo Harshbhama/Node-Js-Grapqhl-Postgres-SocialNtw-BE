@@ -12,3 +12,9 @@ export const loginUser = (payload) => async dispatch => {
     payload: payload
   })
 }
+export const getCityDetal = (payload) => async dispatch => {
+  dispatch({
+    type: types.CITY_DETAIL,
+    payload: payload
+  })
+}
