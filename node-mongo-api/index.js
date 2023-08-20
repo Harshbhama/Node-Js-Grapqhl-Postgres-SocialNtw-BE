@@ -8,6 +8,9 @@ const cors = require('cors');
 const redis = require('redis');
 const client = redis.createClient();
 const session = require("express-session")
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("./graphql/Schema");
+const resolvers = require("./graphql/Resolvers");
 client.on('connect', function() {
     console.log('Connected to redis server');
 }).on('error', function (error) {
@@ -49,6 +52,15 @@ application.use("/video", VideoController);
 application.use("/tour", TourController);
 application.use("/reviews", ReviewController);
 application.use("/countries", CountryController)
+
+application.use(
+    "/",
+    graphqlHTTP({
+      schema,
+      rootValue: resolvers,
+      graphiql: true,
+    })
+);
 
 application.listen("4000", () => {
     console.log("server started");
