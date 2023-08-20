@@ -49,6 +49,7 @@ application.use("/video", VideoController);
 application.use("/tour", TourController);
 application.use("/reviews", ReviewController);
 application.use("/countries", CountryController)
+
 application.listen("4000", () => {
     console.log("server started");
 

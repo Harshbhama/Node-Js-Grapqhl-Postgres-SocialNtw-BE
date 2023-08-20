@@ -62,7 +62,9 @@ function addTourDao(model, obj){
 function getTourDao(model){
   return new Promise(async (resolve, reject) => {
     
-    const query = model.find({})
+    // const query = model.find({price: {$gte: 1000}, ratingsAverage : {$gte: 4.5} })
+    // .explain()
+    const query = model.find({}).populate('guides')
     query.then(res => resolve(res)).catch(err => reject(err))
     //Filtering
     
@@ -182,8 +184,8 @@ function getTourDao(model){
 
   function listAllReviewsDao(model){
     return new Promise((resolve, reject) => {
-      model.find({}).then(res => resolve(res)).catch(err => reject(err))
-      // model.find({}).populate('user tours').then(res => resolve(res)).catch(err => reject(err))
+      // model.find({}).then(res => resolve(res)).catch(err => reject(err))
+      model.find({}).populate('user tours').then(res => resolve(res)).catch(err => reject(err))
     })
   }
 

@@ -93,6 +93,12 @@ var tourSchema = new mongoose.Schema({
   toObject: {virtuals: true}
 }
 );
+// Single field index ---  
+// tourSchema.index({price: 1, ratingsAverage: -1}) // Indexing to speed up search, usually given index to that property which is used most in queries
+
+// Used for performance gain
+
+
 
 // virtual property is created every time values is get from database.
 //  This is not persistant in the DB, it is called everytime we get data.

@@ -1,6 +1,7 @@
 const express = require("express")
+const axios = require("axios");
 const router = express.Router()
-var {insertIntoDbService, getAllCitiesService, getSearchCitiesService} = require("../services/countriesService");
+var {insertIntoDbService, getAllCitiesService, getSearchCitiesService, getAuthBooking} = require("../services/countriesService");
 
 router.post("/addCountriesToDb", async(req, res) => {
   try{
@@ -27,6 +28,15 @@ router.post("/searchCities", async (req, res) => {
   }
   catch(err){
     res.json(err);
+  }
+})
+router.post("/getHotels", async (req, res) => {
+  try{
+    const {selectedCity} = req.body
+    let service = await getAuthBooking(req, res, selectedCity);
+    res.json(service);
+  }catch(err){
+    res.json(err)
   }
 })
 module.exports = router;

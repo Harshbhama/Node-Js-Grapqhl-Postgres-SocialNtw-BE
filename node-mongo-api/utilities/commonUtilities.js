@@ -1,10 +1,10 @@
 const axios = require("axios");
-async function getIndianCities () {
+async function getIndianCities() {
   let arr = []
   let temp = 1
-  return new Promise (async (resolve, reject) => {
-    try{
-      const getToken = await axios.get("https://www.universal-tutorial.com/api/getaccesstoken",{
+  return new Promise(async (resolve, reject) => {
+    try {
+      const getToken = await axios.get("https://www.universal-tutorial.com/api/getaccesstoken", {
         headers: {
           "Accept": "application/json",
           "api-token": "__3IraJdwU8icPd83q07nEabZ10R1aZsIbr_6pP4clFBoGIJW3-c-nBVCRJDfkqvgYg",
@@ -19,26 +19,26 @@ async function getIndianCities () {
       }).then(res => {
         console.log(res.data.length)
         res.data.forEach(async (val, index) => {
-            let cities = await getNestedCities(val?.state_name, getToken);
-            arr = [...arr, ...cities.data]
-            // console.log(++temp);
-            if(++temp === res.data.length + 1){
-              resolve(arr);
-            }
+          let cities = await getNestedCities(val?.state_name, getToken);
+          arr = [...arr, ...cities.data]
+          // console.log(++temp);
+          if (++temp === res.data.length + 1) {
+            resolve(arr);
+          }
         })
         console.log(arr);
       }).catch(err => {
         console.log("Error in getting cities", err)
         reject(err);
       })
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   })
-  
+
 }
 
-async function getNestedCities (state_name, getToken){
+async function getNestedCities(state_name, getToken) {
   let cities = await axios.get(`https://www.universal-tutorial.com/api/cities/${state_name}`,
     {
       headers: {
@@ -46,16 +46,56 @@ async function getNestedCities (state_name, getToken){
         "Accept": "application/json"
       }
     }
-  ) 
+  )
   return cities;
 }
-function convertToFirstUpper(e){
+function convertToFirstUpper(e) {
   const lower = e.toLowerCase()
   const firstUpper = lower.charAt(0).toUpperCase() + lower.slice(1);
   return firstUpper
 }
-
+function getAuthForBooking(e) {
+  const url = 'https://api.makcorps.com/auth';
+  const payload = {
+    username: 'harshbhama',
+    password: 'harsh19971997'
+  };
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+  return new Promise((resolve, reject) => {
+    axios.post(url, payload, { headers })
+      .then(response => {
+        console.log(response.data);
+        resolve(response.data);
+      })
+      .catch(err => {
+        reject(err);
+        console.error(err);
+      });
+  })
+}
+function getHotels(authToken, selectedCity) {
+  const url = `https://api.makcorps.com/free/${selectedCity}`;
+  const headers = {
+    'Authorization': `JWT ${authToken}`
+  };
+  return new Promise((resolve, reject) => {
+    axios.get(url, { headers })
+    .then(response => {
+      // console.log(response.data);
+      resolve(response.data)
+    })
+    .catch(error => {
+      console.error(error);
+      reject(error);
+    });
+  })
+ 
+}
 module.exports = {
   getIndianCities: getIndianCities,
-  convertToFirstUpper: convertToFirstUpper
+  convertToFirstUpper: convertToFirstUpper,
+  getAuthForBooking: getAuthForBooking,
+  getHotels: getHotels
 }
