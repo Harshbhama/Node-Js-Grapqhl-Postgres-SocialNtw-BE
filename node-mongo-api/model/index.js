@@ -4,7 +4,7 @@ mongoose.connect("mongodb://localhost:27017/Project", { useNewUrlParser: true}, 
     if(err)
     console.log("err",err);
     else
-    console.log("Connected to DB")
+    console.log("Connected to Mongo DB")
 });
 
 const course = require("./courses.model")

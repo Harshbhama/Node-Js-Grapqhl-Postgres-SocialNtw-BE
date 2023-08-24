@@ -93,6 +93,10 @@ function getHotels(authToken, selectedCity) {
   })
  
 }
+
+function byCrptPassword(){
+  
+}
 module.exports = {
   getIndianCities: getIndianCities,
   convertToFirstUpper: convertToFirstUpper,

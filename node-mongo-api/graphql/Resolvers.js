@@ -50,11 +50,6 @@ const resolvers = {
         msg: "User created successfully",
         data: user
       })
-      // res.json({
-      //   error: false,
-      //   msg: "User created successfully",
-      //   data: user
-      // })
     }
   },
   updateUser: async ({ id, first_name, last_name, password }) => {

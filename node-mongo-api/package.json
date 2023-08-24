@@ -21,7 +21,7 @@
     "express-graphql": "^0.12.0",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
-    "graphql": "^16.8.0",
+    "graphql": "^15.3.0",
     "gray-matter": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
@@ -31,6 +31,7 @@
     "nodemailer": "^6.9.1",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.20",
+    "pg": "^8.11.3",
     "react-redux": "^8.0.4",
     "redis": "^4.6.5",
     "redux-devtools-extension": "^2.13.9"
