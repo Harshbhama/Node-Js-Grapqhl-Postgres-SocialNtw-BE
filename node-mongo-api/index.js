@@ -9,9 +9,8 @@ const redis = require('redis');
 const client = redis.createClient();
 const session = require("express-session")
 const { graphqlHTTP } = require("express-graphql");
-const schema = require("./graphql/Schema");
-const resolvers = require("./graphql/Resolvers");
 const {loginGrapgql} = require("./controllers/LoginController");
+const {storyGraphql} = require("./controllers/StoriesController");
 const { Client } = require("pg")
 client.on('connect', function() {
     console.log('Connected to redis server');
@@ -27,7 +26,7 @@ const VideoController = require('./controllers/videoController')
 const TourController = require('./controllers/tours');
 const ReviewController = require('./controllers/reviews');
 const CountryController = require('./controllers/countriesController');
-const {insertData} = require('./dao/loginDao');
+
 // const LearnJavascrpt = require('./controllers/learnJavascript');
 application.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 application.use(bodyparser.urlencoded({
@@ -57,36 +56,7 @@ application.use("/reviews", ReviewController);
 application.use("/countries", CountryController)
 
 loginGrapgql("/login", application, graphqlHTTP);
-// application.use(
-//     "/",
-//     graphqlHTTP({
-//       schema,
-//       rootValue: resolvers,
-//       graphiql: true,
-//     })
-// );
-
-// const connectDb = async () => {
-//     try {
-//         const client = new Client({
-//             user: "postgres",
-//             host: "localhost",
-//             database: "test",
-//             password: "harsh",
-//             port: "5433"
-//         })
- 
-//         await client.connect()
-//         const res = await client.query('Select * from Login');
-//         console.log(res)
-//         await client.end()
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
- 
-// connectDb()
-insertData()
+storyGraphql("/stories", application, graphqlHTTP);
 application.listen("4000", () => {
     console.log("server started");
 

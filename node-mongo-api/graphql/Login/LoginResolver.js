@@ -45,9 +45,6 @@ const resolvers = {
     let queriedPass = await getPassword(email);
     let ID = queriedPass.rows[0].id
     queriedPass  = queriedPass.rows[0].password
- 
-    console.log("queriedPass",queriedPass)
-    console.log("ID", ID)
     let compare = await bcrypt.compare(password, queriedPass);
     if(compare){
       const token = jwt.sign(
@@ -60,7 +57,8 @@ const resolvers = {
         return({
           error: false,
           msg: "User logged in successfully",
-          token: token
+          token: token,
+          user_id: ID
         })
     }else{
       return({

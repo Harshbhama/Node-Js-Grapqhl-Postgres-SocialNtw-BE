@@ -1,8 +1,11 @@
 const { buildSchema } = require("graphql");
 
 const schema = buildSchema(`
+
+  type Res {
+    rows: [String]
+  }
   type User {
-    id: ID!
     email: String!
     first_name: String!
     last_name: String!
@@ -10,6 +13,14 @@ const schema = buildSchema(`
     error: Boolean
     msg: String!
     data: User
+    res: Res
+    token: String
+  }
+  type UserLogin{
+    error: Boolean!
+    msg: String!
+    token: String
+    user_id: Int
   }
   type Query {
     getUser(id: ID!): User
@@ -19,6 +30,7 @@ const schema = buildSchema(`
     createUser(email: String!, first_name: String!, last_name: String!, password: String!): User
     updateUser(id: ID!, first_name: String, last_name: String, password: String): User
     deleteUser(id: ID!): User
+    loginUser(email: String!, password: String!): UserLogin
   }
 `);
 

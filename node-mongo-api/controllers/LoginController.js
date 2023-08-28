@@ -1,5 +1,5 @@
-const schema = require("../graphql/Login/Schema");
-const resolvers = require("../graphql/Login/Resolver");
+const schema = require("../graphql/Login/LoginSchema");
+const resolvers = require("../graphql/Login/LoginResolver"); 
 async function loginGrapgql(path, application, graphqlHTTP){
   application.use(
     path,
