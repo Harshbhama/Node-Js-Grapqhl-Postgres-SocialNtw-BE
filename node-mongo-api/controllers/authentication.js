@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
         error: false,
         data: "Login Controller"
     })
+    console.log(req.cookies);
 })
 
 router.post('/register', async(req, res) => {
@@ -52,7 +53,7 @@ router.post('/register', async(req, res) => {
 })
 
 router.post('/login', async(req, res) => {
- 
+    console.log(req.cookies)
     const { email, password } = req.body;
     const user = await User.findOne({email});
     if(user){
@@ -66,6 +67,10 @@ router.post('/login', async(req, res) => {
           }
         );
         user._doc.token = token
+        res.cookie("rest_cookie","aaaaaaa", {
+          httpOnly: true,
+          maxAge: 1000000000
+        })
         res.json({
           error: false,
           msg: "User Logged in successfully",

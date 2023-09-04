@@ -14,12 +14,12 @@ async function findExistingUser(email){
     }
   })
 }
-async function insertUser(email, first_name, last_name, password){
+async function insertUser(email, name, password){
   return new Promise(async(resolve, reject) => {
     try{
       const res = await pool.query(
-        `INSERT INTO LOGIN (email, first_name, last_name, password)
-        VALUES ('${email}','${first_name}','${last_name}','${password}');`
+        `INSERT INTO LOGIN (email, name , password)
+        VALUES ('${email}','${name}','${password}');`
       )
       resolve(res);
     }catch(err){

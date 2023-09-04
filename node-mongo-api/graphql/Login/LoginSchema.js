@@ -7,8 +7,7 @@ const schema = buildSchema(`
   }
   type User {
     email: String!
-    first_name: String!
-    last_name: String!
+    name: String!
     password: String!
     error: Boolean
     msg: String!
@@ -27,7 +26,7 @@ const schema = buildSchema(`
     getUsers: [User]
   }
   type Mutation {
-    createUser(email: String!, first_name: String!, last_name: String!, password: String!): User
+    createUser(email: String!, name: String!, password: String!): User
     updateUser(id: ID!, first_name: String, last_name: String, password: String): User
     deleteUser(id: ID!): User
     loginUser(email: String!, password: String!): UserLogin

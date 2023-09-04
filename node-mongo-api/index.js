@@ -8,6 +8,7 @@ const cors = require('cors');
 const redis = require('redis');
 const client = redis.createClient();
 const session = require("express-session")
+const cookies = require("cookie-parser");
 const { graphqlHTTP } = require("express-graphql");
 const {loginGrapgql} = require("./controllers/LoginController");
 const {storyGraphql} = require("./controllers/StoriesController");
@@ -34,8 +35,11 @@ application.use(bodyparser.urlencoded({
 }));
 
 application.use(bodyparser.json({limit: '2mb'}))
-
-application.use(cors());
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true };
+application.use(cors(corsOptions));
+application.use(cookies())
 
 //  application.use("/", LearnJavascrpt);
 
