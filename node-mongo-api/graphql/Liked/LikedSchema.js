@@ -3,7 +3,7 @@ const schema = buildSchema(`
   type Query {
     getAllStoryById: [StoriesData]
     getAllStory: [StoriesData]
-    getStoryWithLikes: [StoriesData]
+    getLikedStoryByUserId: [StoryByUserId]
   }
   type StoriesData {
     id: Int,
@@ -12,9 +12,7 @@ const schema = buildSchema(`
     user_id: Int
     picture: String,
     msg: String,
-    title: String,
-    story_id: Int,
-    liked_by_user_id: Int
+    title: String
   }
   type Stories{
     user_id: Int,
@@ -22,10 +20,12 @@ const schema = buildSchema(`
     msg: String,
     id: Int
   }
+  type StoryByUserId {
+    story_id: Int
+    error: String,
+  }
   type Mutation {
-    addStory(user_id: Int,  description: String, picture: String, like_count: Int): Stories
-    deleteStory(id: Int): Stories
-    updateStory(id: Int,  description: String, picture: String, like_count: Int): Stories
+    likeStory(story_id: Int): Stories
   }
 `)
 

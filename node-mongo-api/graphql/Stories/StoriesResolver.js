@@ -1,6 +1,8 @@
-const {createStory, deleteStoryDao, updateStoryDao, getStories} = require("../../dao/postgres/storyDao");;
+const {createStory, deleteStoryDao, updateStoryDao, getStories, getStoriesWithLikes} = require("../../dao/postgres/storyDao");
+const { authoraziation } = require("../../utilities/commonUtilities");
+
 const resolvers = {
-  addStory: async({description, picture, like_count, user_id}) => {
+  addStory: async({description, picture, like_count, user_id}, res) => {
     try{
       let story = await createStory(description, picture, like_count, user_id);
       return({
@@ -57,22 +59,38 @@ const resolvers = {
       console.log(err)
     }
   },
-  getAllStoryById: async({id}) => {
+  getAllStoryById: async({}, _res) => {
     try{
-      let story = await getStories(id);
+      let auth = await authoraziation(_res.cookies.token)
+      console.log(auth.user_id)
+      let story = await getStories(auth.user_id, true);
       return story.rows
     }catch(err){
       console.log(err)
     }
   },
-  getAllStory: async({}) => {
+  getAllStory: async({}, _res) => {
     try{
-      let story = await getStories();
+     let auth = await authoraziation(_res.cookies.token)
+      let story = await getStories(auth.user_id);
       if(story.rows.length > 0){
         return(story.rows)
       }
     }catch(err){
       console.log(err)
+      return(err)
+    }
+  },
+  getStoryWithLikes: async({}, _res) => {
+    try{
+     let auth = await authoraziation(_res.cookies.token)
+      let story = await getStoriesWithLikes(auth.user_id);
+      if(story.rows.length > 0){
+        return(story.rows)
+      }
+    }catch(err){
+      console.log(err)
+      return(err)
     }
   }
 }

@@ -4,7 +4,7 @@ async function storyGraphql(path, application, graphqlHTTP) {
   application.use(
     path,
     graphqlHTTP({
-      schema,
+      schema, 
       rootValue: resolvers,
       graphiql: true,
     })

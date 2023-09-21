@@ -1,4 +1,5 @@
 const axios = require("axios");
+var jwt = require("jsonwebtoken");
 async function getIndianCities() {
   let arr = []
   let temp = 1
@@ -94,12 +95,28 @@ function getHotels(authToken, selectedCity) {
  
 }
 
-function byCrptPassword(){
+const authoraziation = async(token) =>{
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.TOKEN_KEY , (err, dt) => {
+      if (err) {     
+        reject(err)
+      }
+      else {
+        console.log(dt)
+        resolve(dt);
+        // req.session.userData = dt
+        next()
+      }
+    })
+  })
   
 }
+
+
 module.exports = {
   getIndianCities: getIndianCities,
   convertToFirstUpper: convertToFirstUpper,
   getAuthForBooking: getAuthForBooking,
-  getHotels: getHotels
+  getHotels: getHotels,
+  authoraziation: authoraziation
 }

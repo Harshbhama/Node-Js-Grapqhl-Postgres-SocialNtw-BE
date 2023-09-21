@@ -12,6 +12,7 @@ const cookies = require("cookie-parser");
 const { graphqlHTTP } = require("express-graphql");
 const {loginGrapgql} = require("./controllers/LoginController");
 const {storyGraphql} = require("./controllers/StoriesController");
+const {likedGraphql} = require("./controllers/LikedController");
 const { Client } = require("pg")
 client.on('connect', function() {
     console.log('Connected to redis server');
@@ -61,6 +62,7 @@ application.use("/countries", CountryController)
 
 loginGrapgql("/login", application, graphqlHTTP);
 storyGraphql("/stories", application, graphqlHTTP);
+likedGraphql("/liked", application, graphqlHTTP);
 application.listen("4000", () => {
     console.log("server started");
 

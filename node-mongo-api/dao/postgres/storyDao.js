@@ -43,12 +43,12 @@ async function updateStoryDao(id, description, picture, like_count){
     }
   })
 }
-async function getStories(id){
+async function getStories(id, byId = false){
   return new Promise(async (resolve, reject) => {
     try{
-      if(id){
+      if(byId){
         const res = await pool.query(`
-        Select * from Stories where ID = ${id}
+        Select * from Stories where user_id = ${id}
         `)
         resolve(res);
       }else{
@@ -62,11 +62,27 @@ async function getStories(id){
     }
     
   })
-    
+}
+async function getStoriesWithLikes(id){
+  return new Promise(async (resolve, reject) => {
+    try{
+      const res = await pool.query(`
+        Select * From Stories
+        LEFT Join liked_by
+        on Stories.id = liked_by.story_id
+        where (liked_by_user_id = '${id}' OR liked_by_user_id is NULL)
+      `)
+      resolve(res)
+    }catch(err){
+      reject(err)
+      console.log(err)
+    }
+  })
 }
 module.exports={
   createStory: createStory,
   deleteStoryDao: deleteStoryDao,
   updateStoryDao: updateStoryDao,
-  getStories: getStories
+  getStories: getStories,
+  getStoriesWithLikes: getStoriesWithLikes
 }
