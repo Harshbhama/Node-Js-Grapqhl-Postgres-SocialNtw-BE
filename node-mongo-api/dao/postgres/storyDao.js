@@ -63,15 +63,25 @@ async function getStories(id, byId = false){
     
   })
 }
-async function getStoriesWithLikes(id){
+async function getStoriesWithLikes(id, byId = false){
   return new Promise(async (resolve, reject) => {
     try{
-      const res = await pool.query(`
+      let res;
+      if(!byId){
+         res = await pool.query(`
         Select * From Stories
         LEFT Join liked_by
         on Stories.id = liked_by.story_id
         where (liked_by_user_id = '${id}' OR liked_by_user_id is NULL)
       `)
+      }else{
+         res = await pool.query(`
+        Select * From Stories
+        LEFT Join liked_by
+        on Stories.id = liked_by.story_id
+        where ((liked_by_user_id = ${id} OR liked_by_user_id is NULL) AND user_id = ${id})
+      `)
+      }
       resolve(res)
     }catch(err){
       reject(err)

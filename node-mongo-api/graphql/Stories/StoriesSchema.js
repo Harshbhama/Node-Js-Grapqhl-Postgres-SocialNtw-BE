@@ -4,6 +4,7 @@ const schema = buildSchema(`
     getAllStoryById: [StoriesData]
     getAllStory: [StoriesData]
     getStoryWithLikes: [StoriesData]
+    getStoryWithLikesById: [StoriesData]
   }
   type StoriesData {
     id: Int,

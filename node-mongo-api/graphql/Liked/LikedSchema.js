@@ -26,6 +26,8 @@ const schema = buildSchema(`
   }
   type Mutation {
     likeStory(story_id: Int): Stories
+    makeLike(story_id: Int): Stories
+    unLike(story_id: Int): Stories
   }
 `)
 

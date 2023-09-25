@@ -1,4 +1,4 @@
-const { likeStoryDao, getStoryByUserId } = require("../../dao/postgres/likedDao");
+const { likeStoryDao, getStoryByUserId, makeLikeDao, unLikeDao } = require("../../dao/postgres/likedDao");
 const { authoraziation } = require("../../utilities/commonUtilities");
 
 const resolvers = {
@@ -21,6 +21,36 @@ const resolvers = {
         return(like.rows)
       }else{
         return([])
+      }
+    } catch (err) {
+      console.log(err)
+      return (err)
+    }
+  },
+  makeLike: async ({story_id}, _res) => {
+    try {
+      let auth = await authoraziation(_res.cookies.token)
+      let like = await makeLikeDao(auth.user_id, story_id)
+      if(like){
+        return({
+          error: "false",
+          msg: "Liked successfully"
+        })
+      }
+    } catch (err) {
+      console.log(err)
+      return (err)
+    }
+  },
+  unLike: async ({story_id}, _res) => {
+    try {
+      let auth = await authoraziation(_res.cookies.token)
+      let unlike = await unLikeDao(auth.user_id, story_id)
+      if(unlike){
+        return({
+          error: "false",
+          msg: "Unliked successfully"
+        })
       }
     } catch (err) {
       console.log(err)

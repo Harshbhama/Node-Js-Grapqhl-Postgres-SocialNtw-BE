@@ -92,6 +92,18 @@ const resolvers = {
       console.log(err)
       return(err)
     }
+  },
+  getStoryWithLikesById: async({}, _res) => {
+    try{
+     let auth = await authoraziation(_res.cookies.token)
+      let story = await getStoriesWithLikes(auth.user_id, true);
+      if(story.rows.length > 0){
+        return(story.rows)
+      }
+    }catch(err){
+      console.log(err)
+      return(err)
+    }
   }
 }
 module.exports = resolvers
