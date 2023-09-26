@@ -69,14 +69,14 @@ async function getStoriesWithLikes(id, byId = false){
       let res;
       if(!byId){
          res = await pool.query(`
-        Select * From Stories
+        Select Stories.id, liked_by.story_id, like_count, user_id, title, liked_by_user_id, description, picture From Stories
         LEFT Join liked_by
         on Stories.id = liked_by.story_id
         where (liked_by_user_id = '${id}' OR liked_by_user_id is NULL)
       `)
       }else{
          res = await pool.query(`
-        Select * From Stories
+        Select Stories.id, liked_by.story_id, like_count, user_id, title, liked_by_user_id, description, picture From Stories
         LEFT Join liked_by
         on Stories.id = liked_by.story_id
         where ((liked_by_user_id = ${id} OR liked_by_user_id is NULL) AND user_id = ${id})
