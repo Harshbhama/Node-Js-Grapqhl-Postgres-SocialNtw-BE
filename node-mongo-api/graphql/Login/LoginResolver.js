@@ -74,6 +74,16 @@ const resolvers = {
         msg: "Wrong Password"
       })
     }
+  },
+  logoutUser: async ({}, {res}) => {
+    res.cookie("token","", {
+      httpOnly: true,
+      maxAge: 1000000000
+    })
+    return({
+      error: false,
+      msg: "Logout successfully"
+    })
   }
 };
 

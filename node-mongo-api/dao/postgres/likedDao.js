@@ -31,13 +31,8 @@ async function makeLikeDao(user_id, story_id) {
   return new Promise(async (resolve, reject) => {
     try {
       const insertIntoLikedBy = await pool.query(`
-      Insert into liked_by (story_id, liked_by_user_id)
-      Values(${story_id},${user_id})
-      `)
-      const updateLikeCount = await pool.query(`
-      Update Stories 
-      Set like_count = like_count + 1
-      Where id = ${story_id}
+        Insert into liked
+        Values(${story_id},${user_id})
       `)
       resolve(true)
     } catch (err) {
@@ -50,13 +45,8 @@ async function unLikeDao(user_id, story_id) {
   return new Promise(async (resolve, reject) => {
     try {
       const deleteFromLikedBy = await pool.query(`
-      Delete from liked_by
-      where story_id = ${story_id} and liked_by_user_id = ${user_id}
-      `)
-      const updateLikeCount = await pool.query(`
-      Update Stories 
-      Set like_count = like_count - 1 
-      Where id = ${story_id}
+      Delete from liked 
+      where (liked_story_id = ${story_id} AND liked_by_user = ${user_id})
       `)
       resolve(true)
     } catch (err) {

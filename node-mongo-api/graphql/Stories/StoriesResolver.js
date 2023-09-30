@@ -83,7 +83,7 @@ const resolvers = {
   },
   getStoryWithLikes: async({}, _res) => {
     try{
-     let auth = await authoraziation(_res.cookies.token)
+      let auth = await authoraziation(_res.cookies.token)
       let story = await getStoriesWithLikes(auth.user_id);
       if(story.rows.length > 0){
         return(story.rows)

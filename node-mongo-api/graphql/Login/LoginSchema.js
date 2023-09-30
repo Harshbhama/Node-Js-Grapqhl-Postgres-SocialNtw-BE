@@ -30,6 +30,7 @@ const schema = buildSchema(`
     updateUser(id: ID!, first_name: String, last_name: String, password: String): User
     deleteUser(id: ID!): User
     loginUser(email: String!, password: String!): UserLogin
+    logoutUser: UserLogin
   }
 `);
 

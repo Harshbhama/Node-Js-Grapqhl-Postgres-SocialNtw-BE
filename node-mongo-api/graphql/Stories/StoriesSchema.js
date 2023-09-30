@@ -15,7 +15,8 @@ const schema = buildSchema(`
     msg: String,
     title: String,
     story_id: Int,
-    liked_by_user_id: Int
+    liked_by_user: [Int],
+    liked_count: Int
   }
   type Stories{
     user_id: Int,
