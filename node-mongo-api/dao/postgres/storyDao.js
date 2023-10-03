@@ -1,10 +1,10 @@
 const { pool } = require("../../postgresql/db");
-async function createStory(description, picture, like_count, user_id){
+async function createStory(description, picture, user_id, title){
   return new Promise(async(resolve, reject) => {
     try{
       const res = await pool.query(
-        `Insert into Stories(description, picture, like_count, user_id)
-        Values('${description}', '${picture}', ${like_count}, ${user_id})
+        `Insert into Stories(description, picture, user_id, title)
+        Values('${description}', '${picture}', ${user_id}, ${title})
         `
       )
       resolve(res)

@@ -25,7 +25,7 @@ const schema = buildSchema(`
     id: Int
   }
   type Mutation {
-    addStory(user_id: Int,  description: String, picture: String, like_count: Int): Stories
+    addStory(user_id: Int,  description: String, picture: String, title: String): Stories
     deleteStory(id: Int): Stories
     updateStory(id: Int,  description: String, picture: String, like_count: Int): Stories
   }

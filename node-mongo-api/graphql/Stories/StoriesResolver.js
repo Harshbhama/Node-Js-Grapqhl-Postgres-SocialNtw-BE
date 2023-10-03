@@ -2,9 +2,9 @@ const {createStory, deleteStoryDao, updateStoryDao, getStories, getStoriesWithLi
 const { authoraziation } = require("../../utilities/commonUtilities");
 
 const resolvers = {
-  addStory: async({description, picture, like_count, user_id}, res) => {
+  addStory: async({description, picture, user_id, title}, res) => {
     try{
-      let story = await createStory(description, picture, like_count, user_id);
+      let story = await createStory(description, picture, user_id, title);
       return({
         error: false,
         msg: "Story added successfully"
