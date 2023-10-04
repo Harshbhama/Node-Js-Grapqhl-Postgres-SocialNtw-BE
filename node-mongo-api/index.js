@@ -14,6 +14,7 @@ const {loginGrapgql} = require("./controllers/LoginController");
 const {storyGraphql} = require("./controllers/StoriesController");
 const {likedGraphql} = require("./controllers/LikedController");
 const { Client } = require("pg")
+var upload = require('express-fileupload');
 client.on('connect', function() {
     console.log('Connected to redis server');
 }).on('error', function (error) {
@@ -28,6 +29,7 @@ const VideoController = require('./controllers/videoController')
 const TourController = require('./controllers/tours');
 const ReviewController = require('./controllers/reviews');
 const CountryController = require('./controllers/countriesController');
+const UploadController = require("./controllers/UploadController");
 
 // const LearnJavascrpt = require('./controllers/learnJavascript');
 application.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
@@ -50,6 +52,7 @@ application.get("/", (req, res) => {
         data: "Get request successfull"
     })
 })
+application.use(upload());
 application.use("/authentication", LoginController);
 
 application.use("/course", CourseController);
@@ -59,6 +62,7 @@ application.use("/video", VideoController);
 application.use("/tour", TourController);
 application.use("/reviews", ReviewController);
 application.use("/countries", CountryController)
+application.use("/upload", UploadController);
 
 loginGrapgql("/login", application, graphqlHTTP);
 storyGraphql("/stories", application, graphqlHTTP);
