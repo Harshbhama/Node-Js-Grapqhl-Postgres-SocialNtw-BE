@@ -9,7 +9,7 @@ var imagekit = new ImageKit({
 const imageKitMethod = async (name, data) => {
   return new Promise ((resolve, reject) => {
     imagekit.upload({
-      file : data, //required
+      file : data,
       fileName : name,
     }, function(error, result) {
       if(error) {

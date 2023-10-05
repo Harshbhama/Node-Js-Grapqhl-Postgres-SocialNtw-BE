@@ -4,12 +4,13 @@ async function createStory(description, picture, user_id, title){
     try{
       const res = await pool.query(
         `Insert into Stories(description, picture, user_id, title)
-        Values('${description}', '${picture}', ${user_id}, ${title})
+        Values( '${description}', '${picture}', ${user_id}, '${title}')
         `
       )
       resolve(res)
     }catch(err){
-      reject(err)
+      console.log(err)
+      reject(false)
     }
   })
 }
