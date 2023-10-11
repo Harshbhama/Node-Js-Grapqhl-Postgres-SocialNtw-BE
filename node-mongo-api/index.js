@@ -1,4 +1,4 @@
-const connection = require("./model")
+// const connection = require("./model")
 const db = require("./postgresql/db")
 const express = require("express")
 const application = express();
@@ -20,15 +20,15 @@ client.on('connect', function() {
 }).on('error', function (error) {
     console.log(error);
 })
-
-const CourseController = require('./controllers/courses');
-const LoginController = require('./controllers/authentication');
-const ProductController = require('./controllers/products');
-const UserController = require('./controllers/user');
-const VideoController = require('./controllers/videoController')
-const TourController = require('./controllers/tours');
-const ReviewController = require('./controllers/reviews');
-const CountryController = require('./controllers/countriesController');
+require('dotenv').config();
+// const CourseController = require('./controllers/courses');
+// const LoginController = require('./controllers/authentication');
+// const ProductController = require('./controllers/products');
+// const UserController = require('./controllers/user');
+// const VideoController = require('./controllers/videoController')
+// const TourController = require('./controllers/tours');
+// const ReviewController = require('./controllers/reviews');
+// const CountryController = require('./controllers/countriesController');
 const UploadController = require("./controllers/UploadController");
 
 // const LearnJavascrpt = require('./controllers/learnJavascript');
@@ -53,21 +53,21 @@ application.get("/", (req, res) => {
     })
 })
 application.use(upload());
-application.use("/authentication", LoginController);
+// application.use("/authentication", LoginController);
 
-application.use("/course", CourseController);
-application.use("/products",ProductController);
-application.use("/user", UserController);
-application.use("/video", VideoController);
-application.use("/tour", TourController);
-application.use("/reviews", ReviewController);
-application.use("/countries", CountryController)
+// application.use("/course", CourseController);
+// application.use("/products",ProductController);
+// application.use("/user", UserController);
+// application.use("/video", VideoController);
+// application.use("/tour", TourController);
+// application.use("/reviews", ReviewController);
+// application.use("/countries", CountryController)
 application.use("/upload", UploadController);
 
 loginGrapgql("/login", application, graphqlHTTP);
 storyGraphql("/stories", application, graphqlHTTP);
 likedGraphql("/liked", application, graphqlHTTP);
-application.listen("4000", () => {
+application.listen(process.env.API_PORT, () => {
     console.log("server started");
 
 })

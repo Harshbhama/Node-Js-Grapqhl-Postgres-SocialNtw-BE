@@ -74,7 +74,7 @@ async function getStoriesWithLikes(id, byId = false){
          From Stories Left Join liked
          on Stories.id = liked.liked_story_id
          Group By id
-         Order By id asc
+         Order By id desc
       `)
       }else{
          res = await pool.query(`
@@ -83,7 +83,7 @@ async function getStoriesWithLikes(id, byId = false){
           on Stories.id = liked.liked_story_id
           Group By id
           Having user_id = ${id}
-          Order By id asc
+          Order By id desc
       `)
       }
       resolve(res)

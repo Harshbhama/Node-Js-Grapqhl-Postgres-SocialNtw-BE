@@ -1,3 +1,5 @@
 .node_modules
 frontend_project/next
 frontend
+next
+postgresql/db

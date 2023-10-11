@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node websocket/index.js"
+    "start": "node websocket/index.js",
+    "dev": "node index.js",
+    "prod": "node index.js"
   },
   "author": "",
   "license": "ISC",

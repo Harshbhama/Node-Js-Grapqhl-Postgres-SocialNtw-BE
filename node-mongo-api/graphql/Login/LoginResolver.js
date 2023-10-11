@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const User = mongoose.model("Login");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { findExistingUser, insertUser, getPassword } = require("../../dao/postgres/loginDao");
