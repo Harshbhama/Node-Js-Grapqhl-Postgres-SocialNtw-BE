@@ -82,9 +82,12 @@ const resolvers = {
     }
   },
   getStoryWithLikes: async({}, _res) => {
+    console.log(_res.query);
+    let page = _res.query.page || '1'
+    let docs = _res.query.docs || '6'
     try{
       let auth = await authoraziation(_res.cookies.token)
-      let story = await getStoriesWithLikes(auth.user_id);
+      let story = await getStoriesWithLikes(auth.user_id, false, page, docs);
       if(story.rows.length > 0){
         return(story.rows)
       }
@@ -94,9 +97,10 @@ const resolvers = {
     }
   },
   getStoryWithLikesById: async({}, _res) => {
+    const {page, docs} = _res.query
     try{
      let auth = await authoraziation(_res.cookies.token)
-      let story = await getStoriesWithLikes(auth.user_id, true);
+      let story = await getStoriesWithLikes(auth.user_id, true, page, docs);
       if(story.rows.length > 0){
         return(story.rows)
       }

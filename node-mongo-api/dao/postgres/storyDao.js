@@ -64,26 +64,30 @@ async function getStories(id, byId = false){
     
   })
 }
-async function getStoriesWithLikes(id, byId = false){
+async function getStoriesWithLikes(id, byId = false, page, docs){
   return new Promise(async (resolve, reject) => {
     try{
       let res;
       if(!byId){
          res = await pool.query(`
-         Select id, title, user_id, json_agg(liked_by_user) as liked_by_user, Count(liked_by_user) as liked_count, description, picture
+         Select id, title, user_id, json_agg(liked_by_user) as liked_by_user, Count(liked_by_user) as liked_count, description, picture, count(*) over () as num_rows
          From Stories Left Join liked
          on Stories.id = liked.liked_story_id
          Group By id
          Order By id desc
+         Limit ${docs}
+         OFFSET ${(page-1) * docs}
       `)
       }else{
          res = await pool.query(`
-         Select id, title, user_id, json_agg(liked_by_user) as liked_by_user, Count(liked_by_user) as liked_count, description, picture
+         Select id, title, user_id, json_agg(liked_by_user) as liked_by_user, Count(liked_by_user) as liked_count, description, picture, count(*) over () as num_rows
           From Stories Left Join liked
           on Stories.id = liked.liked_story_id
           Group By id
           Having user_id = ${id}
           Order By id desc
+          Limit ${docs}
+          OFFSET ${(page-1) * docs}
       `)
       }
       resolve(res)
