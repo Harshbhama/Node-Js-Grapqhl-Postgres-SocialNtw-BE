@@ -13,6 +13,7 @@ const { graphqlHTTP } = require("express-graphql");
 const {loginGrapgql} = require("./controllers/LoginController");
 const {storyGraphql} = require("./controllers/StoriesController");
 const {likedGraphql} = require("./controllers/LikedController");
+const {innerStoryGraphql} = require("./controllers/InnerStoryController");
 const { Client } = require("pg")
 var upload = require('express-fileupload');
 client.on('connect', function() {
@@ -67,7 +68,7 @@ application.use("/upload", UploadController);
 loginGrapgql("/login", application, graphqlHTTP);
 storyGraphql("/stories", application, graphqlHTTP);
 likedGraphql("/liked", application, graphqlHTTP);
+innerStoryGraphql("/inner_story", application, graphqlHTTP);
 application.listen(process.env.API_PORT, () => {
     console.log("server started");
-
 })

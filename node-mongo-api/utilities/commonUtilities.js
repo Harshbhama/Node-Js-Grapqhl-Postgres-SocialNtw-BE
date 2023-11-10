@@ -104,7 +104,6 @@ const authoraziation = async(token) =>{
       else {
         console.log(dt)
         resolve(dt);
-        // req.session.userData = dt
         next()
       }
     })

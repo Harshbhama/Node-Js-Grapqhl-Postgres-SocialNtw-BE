@@ -1,10 +1,7 @@
 const { buildSchema } = require("graphql");
 const schema = buildSchema(`
   type Query {
-    getAllStoryById: [StoriesData]
     getAllStory: [StoriesData]
-    getStoryWithLikes: [StoriesData]
-    getStoryWithLikesById: [StoriesData]
   }
   type StoriesData {
     id: Int,
@@ -29,10 +26,7 @@ const schema = buildSchema(`
     id: Int
   }
   type Mutation {
-    addStory(user_id: Int,  description: String, picture: String, title: String): Stories
-    deleteStory(id: Int): Stories
-    updateStory(id: Int,  description: String, picture: String, like_count: Int): Stories
-    getStoryById(id: Int): [StoriesData]
+    deleteStory(inner_story_id: Int): Stories
   }
 `)
 

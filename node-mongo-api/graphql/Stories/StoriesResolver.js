@@ -1,4 +1,4 @@
-const {createStory, deleteStoryDao, updateStoryDao, getStories, getStoriesWithLikes} = require("../../dao/postgres/storyDao");
+const {createStory, deleteStoryDao, updateStoryDao, getStories, getStoriesWithLikes, getSpecificStoryDao} = require("../../dao/postgres/storyDao");
 const { authoraziation } = require("../../utilities/commonUtilities");
 
 const resolvers = {
@@ -82,7 +82,7 @@ const resolvers = {
     }
   },
   getStoryWithLikes: async({}, _res) => {
-    console.log(_res.query);
+    
     let page = _res.query.page || '1'
     let docs = _res.query.docs || '6'
     try{
@@ -108,6 +108,17 @@ const resolvers = {
       console.log(err)
       return(err)
     }
-  }
+  },
+  getStoryById: async({id}, _res) => {
+    // console.log(story_id);
+    try{
+      let auth = await authoraziation(_res.cookies.token);
+      let story = await getSpecificStoryDao(id);
+      console.log(story)
+      return story.rows
+    }catch(err){
+      console.log(err);
+    }
+  },
 }
 module.exports = resolvers

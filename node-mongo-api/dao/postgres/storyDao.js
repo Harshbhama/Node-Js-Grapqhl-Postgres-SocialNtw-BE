@@ -97,10 +97,30 @@ async function getStoriesWithLikes(id, byId = false, page, docs){
     }
   })
 }
+async function getSpecificStoryDao(story_id){
+  return new Promise(async (resolve, reject) => {
+    try{
+      res = await pool.query(`
+      Select Stories.id, description, picture, user_id, title, json_agg(inner_picture) as inner_picture,
+      json_agg(Inner_stories.id) as inner_id, json_agg(liked_by_user_inner_story) as liked_by_user_inner_story
+      from Stories
+      Left Join Inner_Stories
+      on Stories.id = Inner_Stories.inner_story_id
+      where Stories.id = ${story_id}
+      Group By Stories.id
+    `)
+    resolve(res)
+    }catch(err){
+      reject(err)
+      console.log(err);
+    }
+  })
+}
 module.exports={
   createStory: createStory,
   deleteStoryDao: deleteStoryDao,
   updateStoryDao: updateStoryDao,
   getStories: getStories,
-  getStoriesWithLikes: getStoriesWithLikes
+  getStoriesWithLikes: getStoriesWithLikes,
+  getSpecificStoryDao: getSpecificStoryDao
 }
