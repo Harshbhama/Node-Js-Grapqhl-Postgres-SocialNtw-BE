@@ -1,5 +1,6 @@
 const {createStory, deleteStoryDao, updateStoryDao, getStories, getStoriesWithLikes, getSpecificStoryDao} = require("../../dao/postgres/storyDao");
-const { authoraziation } = require("../../utilities/commonUtilities");
+const {innerIdLikes} = require("../../dao/postgres/innerStoryDao");
+const { authoraziation, generateArr } = require("../../utilities/commonUtilities");
 
 const resolvers = {
   addStory: async({description, picture, user_id, title}, res) => {
@@ -114,7 +115,12 @@ const resolvers = {
     try{
       let auth = await authoraziation(_res.cookies.token);
       let story = await getSpecificStoryDao(id);
-      console.log(story)
+      let arr = []
+      if(!!story.rows.length){
+        arr = await generateArr(story);
+      }
+      story.rows[0]["liked_arr"] = arr
+      let combined = story.rows[0]
       return story.rows
     }catch(err){
       console.log(err);

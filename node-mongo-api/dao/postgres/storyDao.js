@@ -102,7 +102,7 @@ async function getSpecificStoryDao(story_id){
     try{
       res = await pool.query(`
       Select Stories.id, description, picture, user_id, title, json_agg(inner_picture) as inner_picture,
-      json_agg(Inner_stories.id) as inner_id, json_agg(liked_by_user_inner_story) as liked_by_user_inner_story
+      json_agg(Inner_stories.id) as inner_id
       from Stories
       Left Join Inner_Stories
       on Stories.id = Inner_Stories.inner_story_id

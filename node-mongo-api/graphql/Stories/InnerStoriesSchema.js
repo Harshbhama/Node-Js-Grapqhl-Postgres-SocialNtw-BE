@@ -27,6 +27,7 @@ const schema = buildSchema(`
   }
   type Mutation {
     deleteStory(inner_story_id: Int): Stories
+    deleteLikedInnerStoryResolver(inner_story_id: Int): Stories
   }
 `)
 

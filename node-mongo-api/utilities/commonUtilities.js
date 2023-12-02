@@ -1,5 +1,6 @@
 const axios = require("axios");
 var jwt = require("jsonwebtoken");
+const {innerIdLikes} = require("../dao/postgres/innerStoryDao");
 async function getIndianCities() {
   let arr = []
   let temp = 1
@@ -83,28 +84,41 @@ function getHotels(authToken, selectedCity) {
   };
   return new Promise((resolve, reject) => {
     axios.get(url, { headers })
-    .then(response => {
-      // console.log(response.data);
-      resolve(response.data)
-    })
-    .catch(error => {
-      console.error(error);
-      reject(error);
-    });
+      .then(response => {
+        // console.log(response.data);
+        resolve(response.data)
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
   })
- 
+
 }
 
-const authoraziation = async(token) =>{
+const authoraziation = async (token) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.TOKEN_KEY , (err, dt) => {
-      if (err) {     
+    jwt.verify(token, process.env.TOKEN_KEY, (err, dt) => {
+      if (err) {
         reject(err)
       }
       else {
         console.log(dt)
         resolve(dt);
         next()
+      }
+    })
+  })
+}
+
+const generateArr = async (story) => {
+  return new Promise((resolve, reject) => {
+    let arr = []
+    story.rows[0].inner_id.map(async (inner_id, index) => {
+      let innerStoryLikes = await innerIdLikes(inner_id)
+      arr.push(innerStoryLikes.rows[0]);
+      if(arr.length === story.rows[0].inner_id.length){
+        resolve(arr)
       }
     })
   })
@@ -117,5 +131,6 @@ module.exports = {
   convertToFirstUpper: convertToFirstUpper,
   getAuthForBooking: getAuthForBooking,
   getHotels: getHotels,
-  authoraziation: authoraziation
+  authoraziation: authoraziation,
+  generateArr: generateArr
 }

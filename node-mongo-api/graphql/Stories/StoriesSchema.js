@@ -6,6 +6,10 @@ const schema = buildSchema(`
     getStoryWithLikes: [StoriesData]
     getStoryWithLikesById: [StoriesData]
   }
+  type LikedObj {
+    liked_inner_story_id: Int,
+    liked_by_users: [Int]
+  }
   type StoriesData {
     id: Int,
     description: String,
@@ -20,7 +24,8 @@ const schema = buildSchema(`
     num_rows: String,
     inner_picture: [String],
     inner_id: [Int],
-    liked_by_user_inner_story: [Int]
+    liked_by_user_inner_story: [Int],
+    liked_arr: [LikedObj]
   }
   type Stories{
     user_id: Int,
