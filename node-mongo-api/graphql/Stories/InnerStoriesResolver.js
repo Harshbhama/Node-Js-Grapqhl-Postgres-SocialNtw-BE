@@ -1,5 +1,5 @@
 const { createStory} = require("../../dao/postgres/storyDao");
-const { deleteInnerStory, deleteLikedInnerStory} = require("../../dao/postgres/innerStoryDao"); 
+const { deleteInnerStory, deleteLikedInnerStory, likeInnerStory, unlikeInnerStory} = require("../../dao/postgres/innerStoryDao"); 
 const { authoraziation } = require("../../utilities/commonUtilities");
 
 const resolvers = {
@@ -33,6 +33,34 @@ const resolvers = {
     }catch(err){
       console.log(err);
     }
+  },
+  likeInnerStoryResolver: async({liked_inner_story_id, liked_by_user_inner_story}, _res) => {
+    try{
+      let innerStoryLike = likeInnerStory(liked_inner_story_id, liked_by_user_inner_story)
+      return({
+        msg: "Liked Successfully",
+        error: "false"
+      })
+    }catch(err){
+      return({
+        msg: err,
+        error: true
+      })
+    }
+  },
+  unlikeInnerStoryResolver: async({liked_inner_story_id, liked_by_user_inner_story}, _res) => {
+    try{
+      let innerStoryLike = unlikeInnerStory(liked_inner_story_id, liked_by_user_inner_story)
+      return({
+        msg: "Unliked Successfully"
+      })
+    }catch(err){
+      return({
+        msg: err,
+        error: true
+      })
+    }
   }
+
 }
 module.exports = resolvers

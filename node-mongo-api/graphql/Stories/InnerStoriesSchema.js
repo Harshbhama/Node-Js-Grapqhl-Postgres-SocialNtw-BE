@@ -28,6 +28,8 @@ const schema = buildSchema(`
   type Mutation {
     deleteStory(inner_story_id: Int): Stories
     deleteLikedInnerStoryResolver(inner_story_id: Int): Stories
+    likeInnerStoryResolver(liked_inner_story_id: Int, liked_by_user_inner_story: Int): Stories
+    unlikeInnerStoryResolver(liked_inner_story_id: Int, liked_by_user_inner_story: Int): Stories
   }
 `)
 

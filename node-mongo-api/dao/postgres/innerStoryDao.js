@@ -56,10 +56,39 @@ async function innerIdLikes(id) {
     }
   })
 }
+async function likeInnerStory(liked_inner_story_id, liked_by_user_inner_story){
+  return new Promise(async (resolve, reject) => {
+    try{
+      const res = await pool.query(
+        `Insert Into Liked_Inner_Story (liked_inner_story_id, liked_by_user_inner_story)
+        Values(${liked_inner_story_id}, ${liked_by_user_inner_story})
+        `
+      )
+      resolve(res);
+    }catch(err){
+      reject(err)
+    }
+  })
+}
+async function unlikeInnerStory(liked_inner_story_id, liked_by_user_inner_story){
+  return new Promise(async(resolve, reject) => {
+    try{
+      const res = await pool.query(
+        `Delete from Liked_Inner_Story
+        where (liked_inner_story_id = ${liked_inner_story_id} and liked_by_user_inner_story = ${liked_by_user_inner_story})`
+      )
+      resolve(res);
+    }catch(err){
+      reject(err)
+    }
+  })
+}
 
 module.exports = {
   uploadInnerStory: uploadInnerStory,
   deleteInnerStory: deleteInnerStory,
   innerIdLikes: innerIdLikes,
-  deleteLikedInnerStory: deleteLikedInnerStory
+  deleteLikedInnerStory: deleteLikedInnerStory,
+  likeInnerStory: likeInnerStory,
+  unlikeInnerStory: unlikeInnerStory
 }
